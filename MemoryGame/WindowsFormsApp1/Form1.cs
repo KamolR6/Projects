@@ -141,9 +141,11 @@ namespace WindowsFormsApp1
         {
             Button clickedButton = sender as Button;
 
+            // Jeśli przycisk już ma tekst, zignoruj kliknięcie
             if (clickedButton == null || clickedButton.Text != "" || timer.Enabled)
                 return;
 
+            // Ustaw pierwszy przycisk
             clickedButton.Text = clickedButton.Tag.ToString();
 
             if (firstButton == null)
@@ -284,34 +286,34 @@ namespace WindowsFormsApp1
             firstButton = null;
             secondButton = null;
 
-            elapsedTime = 0;
-            timerLabel.Text = "Time: 0";
+            foreach (Button btn in gamePanel.Controls.OfType<Button>())
+            {
+                btn.Text = ""; 
+            }
 
-            gameTimer.Start();
+            numbers = Enumerable.Range(1, 32).SelectMany(i => new[] { i, i }).OrderBy(_ => Guid.NewGuid()).ToList();
 
             InitializeGrid();
         }
 
         private void ResetGame()
         {
-            gamePanel.Visible = false;
+
+            if (firstButton != null)
+            {
+                firstButton.Text = ""; 
+            }
+
+            if (secondButton != null)
+            {
+                secondButton.Text = ""; 
+            }
+
+            firstButton = null;
+            secondButton = null;
+
             gamePanel.Controls.Clear();
-
-            Button startButton = Controls.OfType<Button>().FirstOrDefault(b => b.Text == "Start");
-            if (startButton != null)
-            {
-                startButton.Enabled = true;
-            }
-
-            gameTimer.Stop();
-            elapsedTime = 0;
-            timerLabel.Text = "Time: 0";
-
-            Button resetButton = Controls.OfType<Button>().FirstOrDefault(b => b.Text == "Reset");
-            if (resetButton != null)
-            {
-                resetButton.Enabled = false;
-            }
+            InitializeGrid();
         }
     }
 }
