@@ -141,11 +141,9 @@ namespace WindowsFormsApp1
         {
             Button clickedButton = sender as Button;
 
-            // Jeśli przycisk już ma tekst, zignoruj kliknięcie
             if (clickedButton == null || clickedButton.Text != "" || timer.Enabled)
                 return;
 
-            // Ustaw pierwszy przycisk
             clickedButton.Text = clickedButton.Tag.ToString();
 
             if (firstButton == null)
